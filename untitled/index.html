@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мапа Omg</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 600px;
+            width: 600px;
+            margin: 0 auto;
+        }
+        #mapContainer {
+            text-align: center;
+        }
+        #disclaimer {
+            font-size: 10pt;
+        }
+    </style>
+</head>
+<body>
+<h1 style="text-align: center;">Мапа Omg</h1>
+<div id="mapContainer">
+    <div id="map"></div>
+    <button onclick="toggleMapLayer()">Змінити фон</button>
+    <p id="disclaimer">Зроблено не Анастасійкою і не в 2024 році</p>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script>
+    var mymap = L.map('map').setView([50.4501, 30.5234], 13);
+
+    var defaultTileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+    }).addTo(mymap);
+
+    var customTileLayer = L.tileLayer('http://88.99.52.156/tmg/{z}/{x}/{y}', {
+        maxZoom: 19,
+    });
+
+    var marker = L.marker([50.4501, 30.5234], {color: 'red'}).addTo(mymap);
+
+    var currentTileLayer = defaultTileLayer;
+
+    function toggleMapLayer() {
+        if (currentTileLayer === defaultTileLayer) {
+            mymap.removeLayer(defaultTileLayer);
+            mymap.addLayer(customTileLayer);
+            currentTileLayer = customTileLayer;
+        } else {
+            mymap.removeLayer(customTileLayer);
+            mymap.addLayer(defaultTileLayer);
+            currentTileLayer = defaultTileLayer;
+        }
+    }
+</script>
+</body>
+</html>
