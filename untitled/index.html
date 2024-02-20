@@ -39,8 +39,6 @@
         maxZoom: 19,
     });
 
-    var marker = L.marker([50.4501, 30.5234], {color: 'red'}).addTo(mymap);
-
     var currentTileLayer = defaultTileLayer;
 
     function toggleMapLayer() {
@@ -278,8 +276,39 @@
         ]
     };
 
-    var pointData = L.geoJSON(pointJson).addTo(mymap);
-    var lineData = L.geoJSON(lineJson).addTo(mymap);
+    var pointIcon = L.icon({
+        iconUrl: 'C:\\Users\\Ivan\\Downloads\\кітик.png',
+        iconSize: [38, 38],
+    });
+
+    L.geoJSON(pointJson, {
+        pointToLayer: function (feature, latlng) {
+            var marker = L.marker(latlng, { icon: pointIcon });
+            marker.bindPopup("Няв");
+            return marker;
+        }
+    }).addTo(mymap);
+
+    L.geoJSON(lineJson).addTo(mymap);
+
+    L.geoJSON(lineJson, {
+        style: function (feature) {
+            return { color: '#597E52' };
+        }
+    }).addTo(mymap);
+
+    L.geoJSON(lineJson, {
+        filter: function (feature) {
+            return feature.geometry.type === 'Polygon';
+        },
+        style: function (feature) {
+            if (feature.geometry.coordinates[0][0][1] === 50.482001410025475) {
+                return { fillColor: '#F8E559', fillOpacity: 0.7 };
+            } else {
+                return { fillColor: '#964B00', fillOpacity: 0.7 };
+            }
+        }
+    }).addTo(mymap);
 </script>
 </body>
 </html>
